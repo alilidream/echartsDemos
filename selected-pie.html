@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/echarts/dist/echarts.js"></script>
+</head>
+<body>
+    <div id="clickId" style="width: 600px;height:400px;"></div>
+</body>
+<script>
+ var  myecharts = echarts.init(document.getElementById('clickId'))
+ var option = {
+    selectedMode: 'single',
+    legend:{
+        type: 'scroll',
+        selected: {
+            
+        },
+        data: [ {name:'A',icon:'circle',textStyle:{color:'#f0f'}},
+                {name:'B',icon:'circle'},
+                {name:'C',icon:'circle'}]
+    },
+    series: {
+        type: 'pie',
+        data: [{
+            name: 'A',
+            value: 1212
+        }, {
+            name: 'B',
+            value: 2323
+        }, {
+            name: 'C',
+            value: 1919
+        }]
+    }
+ }
+
+ myecharts.setOption(option);
+ 
+//  myecharts.on('legendselectchanged', function(params) {
+// 　　let legends = params.selected;
+// 　　console.log(legends)  　　　　//被选中的图例数组
+// })
+
+myecharts.on('pieselected', function (params) {
+    console.log(params);
+    alert(1);
+});
+
+myecharts.on('click', function (params) {
+    console.log(params);
+    option.series.data.forEach(function(value,i){
+        if(params.name==value.name){
+            value = {
+                    itemStyle :{
+                        normal:{
+                            // 设置扇形的阴影
+                            shadowBlur: 30,
+                            shadowColor: 'rgba(255,227,42,0.3)', 
+                            shadowOffsetX: -5,
+                            shadowOffsetY: 5
+
+                        }
+                    }
+                }
+        }else{
+            value = {
+                    itemStyle :{
+                        normal:{
+                            // 设置扇形的阴影
+                            shadowBlur: 30,
+                            shadowColor: 'rgba(255,227,255,0)', 
+                            shadowOffsetX: -5,
+                            shadowOffsetY: 5
+
+                        }
+                    }
+                }
+        }
+    })
+    myecharts.setOption(option);
+});
+</script>
+</html>
